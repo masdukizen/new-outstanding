@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+.body {
+  min-height: 100dvh;
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header"
+    "main";
+}
+.header {
+  grid-area: header;
+  padding-block: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  /* background-color: salmon; */
+}
+
+.main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block: 3rem;
+  /* background-color: skyblue; */
+}
