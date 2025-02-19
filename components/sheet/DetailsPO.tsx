@@ -90,6 +90,7 @@ export default function DetailsPO({ supplier_name, data }: PoProps) {
           title: "Error",
           description: `Error sent PO: ${errorMessage}`,
         });
+        console.log(errorMessage);
       }
     }
   }
