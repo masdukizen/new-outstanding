@@ -1,6 +1,7 @@
 import { verifyAuthToken } from "@/services/route-auth";
 import { NextRequest, NextResponse } from "next/server";
 import * as UserService from "@/services/user.service";
+
 const cuidRegex = /^c[a-z0-9]{24}$/;
 
 export async function GET(request: NextRequest) {
