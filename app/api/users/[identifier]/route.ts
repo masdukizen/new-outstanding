@@ -1,11 +1,11 @@
-import { verifyAuthToken } from "@/services/route-auth";
+// import { verifyAuthToken } from "@/services/route-auth";
 import { NextRequest, NextResponse } from "next/server";
 import * as UserService from "@/services/user.service";
 const cuidRegex = /^c[a-z0-9]{24}$/;
 
 export async function GET(request: NextRequest) {
-  const isAuthorized = await verifyAuthToken(request);
-  if (isAuthorized instanceof NextResponse) return isAuthorized;
+  // const isAuthorized = await verifyAuthToken(request);
+  // if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const identifier = decodeURIComponent(
@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
-  const isAuthorized = await verifyAuthToken(request);
-  if (isAuthorized instanceof NextResponse) return isAuthorized;
+  // const isAuthorized = await verifyAuthToken(request);
+  // if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const id = decodeURIComponent(
@@ -64,8 +64,8 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const isAuthorized = await verifyAuthToken(request);
-  if (isAuthorized instanceof NextResponse) return isAuthorized;
+  // const isAuthorized = await verifyAuthToken(request);
+  // if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const id = decodeURIComponent(
