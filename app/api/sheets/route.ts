@@ -60,13 +60,13 @@
 // }
 
 // filter
-import { verifyAuthToken } from "@/services/route-auth";
+// import { verifyAuthToken } from "@/services/route-auth";
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
-  const isAuthorized = await verifyAuthToken(request);
-  if (isAuthorized instanceof NextResponse) return isAuthorized;
+export async function GET() {
+  // const isAuthorized = await verifyAuthToken(request);
+  // if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const auth = new google.auth.GoogleAuth({

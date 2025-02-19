@@ -2,28 +2,35 @@ import axiosInstance from "../instance-fetch";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { fetchToken } from "@/lib/useToken";
+// import { fetchToken } from "@/lib/useToken";
 
 const uploadPO = async (url: string, { arg }: { arg: FormData }) => {
-  const token = await fetchToken();
-  const response = await axiosInstance.post(url, arg, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    withCredentials: true,
-  });
+  // const token = await fetchToken();
+  const response = await axiosInstance.post(
+    url,
+    arg
+    //   {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    //   withCredentials: true,
+    // }
+  );
   return response.data;
 };
 
 const deletePO = async (url: string, { arg }: { arg: { id: string } }) => {
-  const token = await fetchToken();
+  // const token = await fetchToken();
 
-  const response = await axiosInstance.delete(`${url}?id=${arg.id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    withCredentials: true,
-  });
+  const response = await axiosInstance.delete(
+    `${url}?id=${arg.id}`
+    //   {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    //   withCredentials: true,
+    // }
+  );
   return response.data;
 };
 

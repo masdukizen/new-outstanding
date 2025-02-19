@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import fetcher from "../fetcher";
 import { Po } from "@/types/po";
-import { fetchToken } from "@/lib/useToken";
+// import { fetchToken } from "@/lib/useToken";
 import axiosInstance from "../instance-fetch";
 import { AxiosError } from "axios";
 
@@ -24,15 +24,19 @@ export const updateOrdered = async (
   url: string,
   { arg }: { arg: Partial<Po> }
 ) => {
-  const token = await fetchToken();
+  // const token = await fetchToken();
 
   try {
-    const response = await axiosInstance.patch(url, arg, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    const response = await axiosInstance.patch(
+      url,
+      arg
+      //   {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   withCredentials: true,
+      // }
+    );
 
     return response.data;
   } catch (error) {
