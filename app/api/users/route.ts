@@ -1,10 +1,10 @@
 import * as UserService from "@/services/user.service";
-// import { verifyAuthToken } from "@/services/route-auth";
+import { verifyAuthToken } from "@/services/route-auth";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  // const isAuthorized = await verifyAuthToken(request);
-  // if (isAuthorized instanceof NextResponse) return isAuthorized;
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const url = new URL(request.url);
@@ -36,8 +36,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  // const isAuthorized = await verifyAuthToken(request);
-  // if (isAuthorized instanceof NextResponse) return isAuthorized;
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const userData = await request.json();

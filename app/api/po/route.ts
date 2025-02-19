@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import * as PoService from "@/services/po.service";
 import path from "path";
 import { unlink, writeFile } from "fs/promises";
-// import { verifyAuthToken } from "@/services/route-auth";
+import { verifyAuthToken } from "@/services/route-auth";
 
-export async function GET() {
-  // const isAuthorized = await verifyAuthToken(request);
-  // if (isAuthorized instanceof NextResponse) return isAuthorized;
+export async function GET(request: Request) {
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const po = await PoService.fetchPo();
@@ -23,8 +23,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  // const isAuthorized = await verifyAuthToken(request);
-  // if (isAuthorized instanceof NextResponse) return isAuthorized;
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const formData = await request.formData();
@@ -76,8 +76,8 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(req: Request) {
-  // const isAuthorized = await verifyAuthToken(req);
-  // if (isAuthorized instanceof NextResponse) return isAuthorized;
+  const isAuthorized = await verifyAuthToken(req);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
     const formData = await req.formData();
@@ -124,8 +124,8 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(request: Request) {
-  // const isAuthorized = await verifyAuthToken(request);
-  // if (isAuthorized instanceof NextResponse) return isAuthorized;
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
   try {
     const url = new URL(request.url);
     const id = url.searchParams.get("id");

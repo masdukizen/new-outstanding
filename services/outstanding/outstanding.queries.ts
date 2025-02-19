@@ -1,6 +1,6 @@
 import useSWR, { mutate } from "swr";
 import fetcher from "../fetcher";
-// import { fetchToken } from "@/lib/useToken";
+import { fetchToken } from "@/lib/useToken";
 import axiosInstance from "../instance-fetch";
 import useSWRMutation from "swr/mutation";
 import { useToast } from "@/hooks/use-toast";
@@ -17,17 +17,13 @@ export function useOutstanding() {
 }
 
 const uploadFile = async (url: string, { arg }: { arg: FormData }) => {
-  // const token = await fetchToken();
-  const response = await axiosInstance.patch(
-    url,
-    arg
-    //   {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    //   withCredentials: true,
-    // }
-  );
+  const token = await fetchToken();
+  const response = await axiosInstance.patch(url, arg, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
+  });
   return response.data;
 };
 

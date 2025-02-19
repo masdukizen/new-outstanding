@@ -1,25 +1,21 @@
 import { AddUserData, User } from "@/types/user";
 import axiosInstance from "../instance-fetch";
 import { AxiosError } from "axios";
-// import { fetchToken } from "@/lib/useToken";
+import { fetchToken } from "@/lib/useToken";
 
 export const updateUser = async (
   url: string,
   { arg }: { arg: Partial<User> & { password?: string } }
 ) => {
-  // const token = await fetchToken();
+  const token = await fetchToken();
 
   try {
-    const response = await axiosInstance.patch(
-      url,
-      arg
-      //   {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   withCredentials: true,
-      // }
-    );
+    const response = await axiosInstance.patch(url, arg, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
 
     return response.data;
   } catch (error) {
@@ -41,19 +37,15 @@ export const addUser = async (
   url: string,
   { arg }: { arg: Partial<AddUserData> }
 ) => {
-  // const token = await fetchToken();
+  const token = await fetchToken();
 
   try {
-    const response = await axiosInstance.post(
-      url,
-      arg
-      //   {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   withCredentials: true,
-      // }
-    );
+    const response = await axiosInstance.post(url, arg, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
 
     return response.data;
   } catch (error) {
@@ -72,17 +64,14 @@ export const addUser = async (
 };
 
 export const deleteUser = async (url: string) => {
-  // const token = await fetchToken();
+  const token = await fetchToken();
   try {
-    const response = await axiosInstance.delete(
-      url
-      //   {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   withCredentials: true,
-      // }
-    );
+    const response = await axiosInstance.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
 
     return response.data;
   } catch (error) {
