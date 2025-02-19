@@ -6,11 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const formatDate = (date?: string | Date) => {
-  if (!date) return "-"; // Tangani undefined/null langsung
+  if (!date) return "-";
 
   const parsedDate = date instanceof Date ? date : new Date(date);
 
-  if (isNaN(parsedDate.getTime())) return "-"; // Cek apakah tanggal valid
+  if (isNaN(parsedDate.getTime())) return "-";
 
   return new Intl.DateTimeFormat("id-ID", { dateStyle: "medium" }).format(
     parsedDate
