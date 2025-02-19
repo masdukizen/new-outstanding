@@ -29,6 +29,6 @@ export async function GET() {
       { status: 401 }
     );
   }
-
+  console.log("✅ Token diterima, lanjutkan validasi:", token);
   return NextResponse.json({ token });
 }
