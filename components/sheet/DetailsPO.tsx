@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { useEffect, useState } from "react";
-import { sendMessage, useUploadPO } from "@/services/sheet/po.mutation";
+import { useUploadPO } from "@/services/sheet/po.mutation";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
@@ -75,10 +75,10 @@ export default function DetailsPO({ supplier_name, data }: PoProps) {
     }
     try {
       await trigger(formData);
-      await sendMessage({
-        nomor: data_supplier?.phone,
-        pesan: `Dear, Rekan Vendor PT Antang Gunung Meratus Terdapat PO dengan nomor ${data.PO_NO}, mohon untuk update ketersediaan diisi di website po`,
-      });
+      // await sendMessage({
+      //   nomor: data_supplier?.phone,
+      //   pesan: `Dear, Rekan Vendor PT Antang Gunung Meratus Terdapat PO dengan nomor ${data.PO_NO}, mohon untuk update ketersediaan diisi di website po`,
+      // });
       sessionStorage.removeItem("selectedPO");
       router.push("/outstanding");
     } catch (error) {
