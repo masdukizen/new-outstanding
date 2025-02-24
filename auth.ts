@@ -86,6 +86,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
+  cookies: {
+    sessionToken: {
+      name: "__Secure-authjs.session-token",
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+        path: "/",
+      },
+    },
+  },
   // cookies: {
   //   sessionToken: {
   //     name: "__Secure-authjs.session-token", // Nama cookie
