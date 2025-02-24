@@ -44,11 +44,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const userRole = auth?.user.role || "User";
       const { pathname } = nextUrl;
       const protectedRoutes = [
-        /^\/(dashboard|fpa|ordered_items|archive)(\/.*)?$/,
+        /^\/(dashboard|fpa|archive|outstanding)(\/.*)?$/,
       ];
-      const protectedSupplier = [
-        /^\/(supplier|monitoring|po|outstanding|setting)(\/.*)?$/,
-      ];
+      const protectedSupplier = [/^\/(supplier|monitoring|po|setting)(\/.*)?$/];
 
       const isProtected = protectedRoutes.some((route) => route.test(pathname));
       const isProtectedSupplier = protectedSupplier.some((route) =>

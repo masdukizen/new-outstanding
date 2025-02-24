@@ -2,8 +2,17 @@ import { prisma } from "@/lib/prisma";
 import { User } from "@/types/user";
 import { Prisma } from "@prisma/client";
 
-export const getUsers = async (skip: number, take: number): Promise<User[]> => {
+export const getUsers = async ({
+  skip,
+  take,
+  role,
+}: {
+  skip: number;
+  take: number;
+  role?: string;
+}): Promise<User[]> => {
   return await prisma.user.findMany({
+    where: role ? { role } : {},
     skip,
     take,
     orderBy: {
@@ -12,8 +21,10 @@ export const getUsers = async (skip: number, take: number): Promise<User[]> => {
   });
 };
 
-export const getCountUsers = async () => {
-  return await prisma.user.count();
+export const getCountUsers = async ({ role }: { role?: string }) => {
+  return await prisma.user.count({
+    where: role ? { role } : {},
+  });
 };
 
 export const getUserByIdentifier = async (where: {
@@ -92,6 +103,20 @@ export const deleteUser = async (id: string): Promise<void> => {
   await prisma.user.delete({
     where: {
       id,
+    },
+  });
+};
+
+export const getAllUser = async (): Promise<Pick<User, "id" | "name">[]> => {
+  return await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    where: {
+      supplier_code: {
+        not: null,
+      },
     },
   });
 };

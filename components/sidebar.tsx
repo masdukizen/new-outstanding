@@ -1,7 +1,6 @@
 import {
   Archive,
   ClipboardList,
-  FileBoxIcon,
   Home,
   Monitor,
   Package,
@@ -41,13 +40,7 @@ const items = [
     title: "Outstanding PO",
     url: "/outstanding",
     icon: Package,
-    roles: ["Admin", "User"],
-  },
-  {
-    title: "Ordered Items",
-    url: "/ordered_items",
-    icon: FileBoxIcon,
-    roles: ["Supplier"],
+    roles: ["Admin", "User", "Supplier"],
   },
   {
     title: "FPA",

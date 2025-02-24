@@ -1,16 +1,12 @@
-"use client";
-import { useEffect } from "react";
+import { FpaTable } from "@/components/fpa/fpa_table";
+import { Suspense } from "react";
 
 export default function Fpa() {
-  useEffect(() => {
-    fetch("/api/sheets") // Gantilah dengan API-mu
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
   return (
-    <div className="p-5">
-      <h1>FPA page</h1>
-      <p></p>
+    <div className="container mx-auto py-2">
+      <Suspense>
+        <FpaTable />
+      </Suspense>
     </div>
   );
 }

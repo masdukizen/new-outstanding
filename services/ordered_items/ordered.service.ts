@@ -1,20 +1,33 @@
 import useSWR from "swr";
-import fetcher from "../fetcher";
+// import fetcher from "../fetcher";
 import { Po } from "@/types/po";
 import { fetchToken } from "@/lib/useToken";
 import axiosInstance from "../instance-fetch";
 import { AxiosError } from "axios";
+// import { ColumnFiltersState } from "@tanstack/react-table";
 
-export function useOrderedItems() {
-  const { data, error, mutate, isLoading } = useSWR(`/api/po`, fetcher, {
-    keepPreviousData: true,
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-    dedupingInterval: 60000,
-    fallbackData: { results: [], totalPages: 1, totalItems: 0 },
-  });
-  return { data, error, mutate, isLoading };
-}
+// export function useOrderedItems(columnFilters: ColumnFiltersState) {
+//   const statusFilter = columnFilters.find((filter) => filter.id === "status")
+//     ?.value as string | string[] | undefined;
+//   let url = `/api/po`;
+//   if (statusFilter) {
+//     if (Array.isArray(statusFilter)) {
+//       const params = new URLSearchParams();
+//       statusFilter.forEach((status) => params.append("status", status));
+//       url = `/api/po?${params.toString()}`;
+//     } else {
+//       url = `/api/po?status=${encodeURIComponent(statusFilter)}`;
+//     }
+//   }
+//   const { data, error, mutate, isLoading } = useSWR(url, fetcher, {
+//     keepPreviousData: true,
+//     revalidateOnFocus: false,
+//     refreshInterval: 300000,
+//     dedupingInterval: 60000,
+//     fallbackData: { results: [], totalPages: 1, totalItems: 0 },
+//   });
+//   return { data, error, mutate, isLoading };
+// }
 
 export function useOrdered(id: string) {
   return useSWR<Po>(`/api/po/${id}`);

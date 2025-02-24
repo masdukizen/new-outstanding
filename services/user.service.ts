@@ -3,15 +3,20 @@ import * as UserRepository from "@/repositories/user.repository";
 import { Prisma } from "@prisma/client";
 import { hash, hashSync } from "bcrypt-ts";
 
-export const fetchUsers = async (
-  skip: number,
-  take: number
-): Promise<User[]> => {
-  return await UserRepository.getUsers(skip, take);
+export const fetchUsers = async ({
+  skip,
+  take,
+  role,
+}: {
+  skip: number;
+  take: number;
+  role?: string;
+}): Promise<User[]> => {
+  return await UserRepository.getUsers({ skip, take, role });
 };
 
-export const countUser = async () => {
-  return await UserRepository.getCountUsers();
+export const countUser = async ({ role }: { role?: string }) => {
+  return await UserRepository.getCountUsers({ role });
 };
 
 export const fetchUserByIdentifier = async (
@@ -67,4 +72,8 @@ export const removeUser = async (
   const where = isCUID ? { id } : { name: id };
   await UserRepository.getUserByIdentifier(where);
   await UserRepository.deleteUser(id);
+};
+
+export const fetchAllUser = async (): Promise<Pick<User, "id" | "name">[]> => {
+  return await UserRepository.getAllUser();
 };

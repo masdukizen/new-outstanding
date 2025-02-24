@@ -1,12 +1,12 @@
 "use client";
 
 import { useUser } from "@/services/user/user.queries";
-import UserShow from "./table-user/user-show";
-import PasswordUpdateForm from "./table-user/PasswordUpdateForm";
-import UserUpdateForm from "./table-user/UserUpdateForm";
-import { Separator } from "./ui/separator";
+import UserShow from "./user-show";
+import PasswordUpdateForm from "./PasswordUpdateForm";
+import UserUpdateForm from "./UserUpdateForm";
+import { Separator } from "../ui/separator";
 import { Suspense } from "react";
-import UserDeleteForm from "./table-user/UserDeleteForm";
+import UserDeleteForm from "./UserDeleteForm";
 
 export default function UserDetails({ userId }: { userId: string }) {
   const { data: user, isLoading, error: isError, mutate } = useUser(userId);

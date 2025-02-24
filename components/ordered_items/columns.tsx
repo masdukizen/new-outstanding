@@ -3,11 +3,17 @@ import { formatDate } from "@/lib/utils";
 import { Po } from "@/types/po";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, FileSearch } from "lucide-react";
 import Link from "next/link";
 import agingSupply from "@/lib/aging-supply";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-export const columns: ColumnDef<Po>[] = [
+export const columnsOrdered: ColumnDef<Po>[] = [
   {
     accessorKey: "po_number",
     header: ({ column }) => {
@@ -25,6 +31,12 @@ export const columns: ColumnDef<Po>[] = [
   {
     accessorKey: "po_items",
     header: "PO Item",
+  },
+  {
+    id: "supplierName",
+    header: "Supplier",
+    accessorFn: (row) => row.supplier?.name ?? "",
+    cell: ({ getValue }) => getValue() || "-",
   },
   {
     accessorKey: "create_at",
@@ -131,27 +143,28 @@ export const columns: ColumnDef<Po>[] = [
     filterFn: "arrIncludesSome",
   },
   {
-    accessorKey: "remarks_on_supply",
-    header: "Remaks",
-    cell: ({ row }) => {
-      const remarks = row.original.remarks_on_supply;
-      const remarksData = remarks ? <span>{remarks}</span> : <span>-</span>;
-      return remarksData;
-    },
-  },
-  {
     header: "Action",
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <Link
-          href={`/ordered_items/${data.id}`}
-          className="text-xs px-3 py-2 rounded-3xl text-center bg-gradient-to-r from-neutral-600 to-neutral-800 text-white hover:from-neutral-700 hover:to-neutral-950 shadow-2xl"
-          prefetch={true}
-        >
-          Detail
-        </Link>
+        <div className="text-center">
+          <Link href={`/outstanding/${data.id}`} prefetch={true}>
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger>
+                  <FileSearch
+                    size={25}
+                    className="border p-1 text-blue-500 border-blue-500 rounded-sm hover:bg-blue-500 hover:text-white"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Detail</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </Link>
+        </div>
       );
     },
   },

@@ -10,12 +10,16 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
-
+    const role = url.searchParams.get("role");
     const skip = (page - 1) * limit;
     const take = limit;
 
-    const users = await UserService.fetchUsers(skip, take);
-    const totalItems = await UserService.countUser();
+    const users = await UserService.fetchUsers({
+      skip,
+      take,
+      role: role ?? undefined,
+    });
+    const totalItems = await UserService.countUser({ role: role ?? undefined });
     const totalPages = Math.ceil(totalItems / limit);
 
     return NextResponse.json({

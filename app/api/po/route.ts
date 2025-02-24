@@ -9,7 +9,11 @@ export async function GET(request: Request) {
   if (isAuthorized instanceof NextResponse) return isAuthorized;
 
   try {
-    const po = await PoService.fetchPo();
+    const url = new URL(request.url);
+    const status = url.searchParams.getAll("status");
+    const statusFilter = status.length > 0 ? status : undefined;
+    const supplierName = url.searchParams.get("supplierName") || undefined;
+    const po = await PoService.fetchPo({ status: statusFilter, supplierName });
     return NextResponse.json(po, { status: 200 });
   } catch (error) {
     return NextResponse.json(

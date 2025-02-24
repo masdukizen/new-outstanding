@@ -48,9 +48,17 @@ export function DataTable() {
   const pageIndex = Number(searchParams.get("page") || 1) - 1;
   const pageSize = Number(searchParams.get("limit") || 10);
 
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    {
+      id: "role",
+      value: "",
+    },
+  ]);
   const { data, error, mutate, totalItems, isLoading } = useUsers(
     pageIndex,
-    pageSize
+    pageSize,
+    columnFilters
   );
   const handlePageSizeChange = (value: string) => {
     updateQueryParamAndMutate("limit", value, mutate);
@@ -60,10 +68,6 @@ export function DataTable() {
     updateQueryParamAndMutate("page", (newPageIndex + 1).toString(), mutate);
   };
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const table = useReactTable({
@@ -98,7 +102,7 @@ export function DataTable() {
   if (error) return <p>Error: {error.message}</p>;
   return (
     <div>
-      <h1 className="text-2xl mb-8 font-bold">Settings</h1>
+      <h1 className="text-2xl mb-8 font-bold">Setting</h1>
       <div className="flex items-center py-4 justify-between">
         <div className="min-w-[20rem] max-w-96">
           <p className="max-w-sm pb-1">Total Users: {totalItems}</p>
@@ -186,14 +190,30 @@ export function DataTable() {
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const columnId = cell.column.id;
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        style={
+                          ["name", "pic_name", "address"].includes(columnId)
+                            ? {
+                                width: "250px",
+                                minWidth: "200px",
+                                maxWidth: "400px",
+                                textAlign: "left",
+                              }
+                            : {}
+                        }
+                        className=""
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

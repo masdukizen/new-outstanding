@@ -6,6 +6,5 @@ export async function fetchToken(): Promise<string> {
   }
 
   const { token } = await tokenRes.json();
-  console.log("✅ Token berhasil diambil:", token);
   return token;
 }

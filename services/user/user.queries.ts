@@ -1,10 +1,18 @@
 import useSWR from "swr";
 import fetcher from "../fetcher";
 import { User } from "@/types/user";
+import { ColumnFiltersState } from "@tanstack/react-table";
 
-export function useUsers(pageIndex: number, pageSize: number) {
+export function useUsers(
+  pageIndex: number,
+  pageSize: number,
+  columnFilters: ColumnFiltersState
+) {
+  const roleFilter = columnFilters.find(
+    (filter) => filter.id === "role"
+  )?.value;
   const { data, error, mutate, isLoading } = useSWR(
-    `/api/users?page=${pageIndex + 1}&limit=${pageSize}`,
+    `/api/users?page=${pageIndex + 1}&limit=${pageSize}&role=${roleFilter}`,
     fetcher,
     {
       keepPreviousData: true,

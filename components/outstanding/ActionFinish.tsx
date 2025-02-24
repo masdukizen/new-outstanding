@@ -1,26 +1,3 @@
-// import { Button } from "@/components/ui/button";
-// import { Po } from "@/types/po";
-
-// interface ActionCellProps {
-//   data: Po;
-// }
-
-// const ActionFinish: React.FC<ActionCellProps> = ({ data }) => {
-//   return (
-//     <div className="flex justify-center items-center gap-2">
-//       {/* Tombol Edit */}
-//       <Button
-//         size="sm"
-//         onClick={() => setEditOpen(true)}
-//         className="text-xs px-4 py-2"
-//       >
-//         Complete Order
-//       </Button>
-//     </div>
-//   );
-// };
-
-// export default ActionFinish;
 "use client";
 
 import {
@@ -40,7 +17,6 @@ import agingSupply from "@/lib/aging-supply";
 import { updateOrdered } from "@/services/ordered_items/ordered.service";
 import { mutate } from "swr";
 import { useToast } from "@/hooks/use-toast";
-
 type PoFinishFormProps = {
   data: Po;
 };

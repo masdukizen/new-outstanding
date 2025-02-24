@@ -20,6 +20,7 @@ model User {
   role          String    @default("User")
   poUser        Po[]      @relation("UserPO")
   poSupplier    Po[]      @relation("SupplierPO")
+  Item Item[] @relation("SupplierItem")
   @@map("users")
 }
  
@@ -39,4 +40,27 @@ model Po {
   userId String?
   supplier User? @relation("SupplierPO",fields: [supplierId],references: [id], onDelete: SetNull)
   supplierId String?
+}
+
+model Item {
+  id String @id @default(cuid())
+  contract_no String
+  contract_no_manual String
+  effective_date DateTime
+  expiry_date DateTime
+  stock_code Int
+  stock_description String
+  part_no String
+  currency String @default("IDR")
+  original_price Int
+  price_usd Float
+  discount Int @default(0)
+  price_after_discount Int
+  stock_class String
+  leadtime Int
+  last_price_update_date DateTime
+  stock_update String?
+  remarks_stock String?
+  supplierId String?
+  supplier User? @relation("SupplierItem",fields: [supplierId],references: [id], onDelete: SetNull)
 }

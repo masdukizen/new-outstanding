@@ -2,10 +2,21 @@ import { prisma } from "@/lib/prisma";
 import { Po } from "@/types/po";
 import { Prisma } from "@prisma/client";
 
-export const getPO = async (): Promise<Po[]> => {
+export const getPO = async ({
+  status,
+  supplierName,
+}: {
+  status?: string[];
+  supplierName?: string;
+}): Promise<Po[]> => {
   return await prisma.po.findMany({
+    where: {
+      ...(status && status.length > 0 ? { status: { in: status } } : {}),
+      ...(supplierName ? { supplier: { name: supplierName } } : {}),
+    },
     include: {
       createdBy: true,
+      supplier: true,
     },
   });
 };
@@ -113,4 +124,61 @@ export const updatedOrderedItem = async (
     }
     throw new Error((error as Error).message);
   }
+};
+
+export const getPOCountsWithCreatorNames = async (): Promise<
+  { name: string; count: number }[]
+> => {
+  const groups = await prisma.po.groupBy({
+    by: ["userId"],
+    _count: { id: true },
+    where: { userId: { not: null } },
+  });
+
+  // Untuk setiap group, ambil nama user dari tabel User
+  const countsWithNames = await Promise.all(
+    groups.map(async (group) => {
+      const user = await prisma.user.findUnique({
+        where: { id: group.userId! },
+      });
+      return {
+        name: user?.name || "Unknown",
+        count: group._count.id,
+      };
+    })
+  );
+  return countsWithNames;
+};
+
+export const getPOCountsByStatus = async (): Promise<
+  { status: string; count: number }[]
+> => {
+  const groups = await prisma.po.groupBy({
+    by: ["status"],
+    _count: { id: true },
+  });
+  // Map hasil agar sesuai dengan format yang diinginkan
+  return groups.map((group) => ({
+    status: group.status,
+    count: group._count.id,
+  }));
+};
+
+export const getTotalPO = async (): Promise<number> => {
+  return await prisma.po.count();
+};
+
+export const getMonthlyPOCount = async () => {
+  const monthlyData = await prisma.$queryRaw<{ month: Date; total: bigint }[]>`
+    SELECT DATE_TRUNC('month', "create_at") AS month, COUNT(*) AS total
+    FROM "Po"
+    GROUP BY month
+    ORDER BY month;
+  `;
+
+  // Jika perlu konversi misalnya total ke number
+  return monthlyData.map((data) => ({
+    month: data.month,
+    total: Number(data.total),
+  }));
 };

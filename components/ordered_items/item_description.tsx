@@ -1,18 +1,32 @@
+"use client";
 import { Po } from "@/types/po";
 import { Skeleton } from "../ui/skeleton";
 import { formatDate } from "@/lib/utils";
 import ActionOrder from "./ActionOrder";
+import { useEffect, useState } from "react";
+import { User } from "@/types/user";
 
 interface PoProps {
   po?: Po;
   isLoading: boolean;
 }
 export default function ItemDescription({ po, isLoading }: PoProps) {
+  const [session, setSession] = useState<User | null>(null);
+  const [isSessionLoaded, setIsSessionLoaded] = useState<boolean>(false);
+  useEffect(() => {
+    const fetchSession = async () => {
+      const res = await fetch("/api/auth/session");
+      const data = await res.json();
+      setSession(data);
+      setIsSessionLoaded(true);
+    };
+    fetchSession();
+  }, []);
   return (
     <>
       <section className="mb-10">
         <h1 className="text-lg font-semibold underline underline-offset-2 mb-7">
-          User Details
+          Po Details
         </h1>
         <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:max-w-[90%] gap-4 bg-gray-50 p-5 rounded-2xl">
           {isLoading
@@ -47,7 +61,9 @@ export default function ItemDescription({ po, isLoading }: PoProps) {
         </article>
       </section>
       <section>
-        <ActionOrder data={po} />
+        {!isLoading && isSessionLoaded && session?.role === "Supplier" ? (
+          <ActionOrder data={po} />
+        ) : null}
       </section>
     </>
   );

@@ -9,9 +9,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { useDeletePo } from "@/services/sheet/po.mutation";
 import { Po } from "@/types/po";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Trash2 } from "lucide-react";
+
 export default function AlertDelete({ po }: { po: Po }) {
   const { trigger, isMutating } = useDeletePo();
   const handleDelete = async () => await trigger({ id: po.id });
@@ -19,13 +26,21 @@ export default function AlertDelete({ po }: { po: Po }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button
-          size="sm"
-          variant="outline"
-          className="hover:bg-red-600 hover:text-white"
-        >
-          Delete
-        </Button>
+        <div className="text-rose-500 text-center">
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger>
+                <Trash2
+                  size={25}
+                  className="border p-1 border-rose-500 rounded-sm hover:bg-rose-500 hover:text-white"
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Delete</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

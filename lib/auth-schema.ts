@@ -39,7 +39,6 @@ const formSchema = z.object({
     .max(50, { message: "Confirm password cannot exceed 50 characters" }),
 });
 
-// 🔥 Validasi untuk role "Supplier" dengan memberikan error spesifik pada setiap field
 export const signUpSchema = formSchema
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

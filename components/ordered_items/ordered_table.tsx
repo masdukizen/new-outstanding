@@ -35,18 +35,29 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
-import { useOrderedItems } from "@/services/ordered_items/ordered.service";
+import { useOutstanding } from "@/services/outstanding/outstanding.queries";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  name: string;
 }
 export function OrderedItemsTable<TData, TValue>({
   columns,
+  name,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const { data: orderedItems, isLoading } = useOrderedItems();
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    { id: "supplierName", value: name },
+    {
+      id: "status",
+      value: [
+        "Plan to delivery",
+        "Ready to pickup",
+        "Waiting for feedback",
+        "Already in feedback",
+      ],
+    },
+  ]);
+  const { data: orderedItems, isLoading } = useOutstanding(columnFilters);
   const table = useReactTable({
     data: orderedItems || [],
     columns,
@@ -112,14 +123,37 @@ export function OrderedItemsTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const columnId = cell.column.id;
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        style={
+                          [
+                            "file_name",
+                            "status",
+                            "create_at",
+                            "due_date",
+                            "plan_date",
+                            "ready_date",
+                          ].includes(columnId)
+                            ? {
+                                width: "250px",
+                                minWidth: "200px",
+                                maxWidth: "400px",
+                                textAlign: "left",
+                              }
+                            : {}
+                        }
+                        className=""
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

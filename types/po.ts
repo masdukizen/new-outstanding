@@ -15,6 +15,7 @@ export type Po = {
   supplierId?: string | null;
   userId?: string | null;
   createdBy?: User | null;
+  supplier?: User | null;
 };
 
 export type PoUncheckedCreateInput = {

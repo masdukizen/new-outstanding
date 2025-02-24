@@ -39,14 +39,24 @@ import { Skeleton } from "../ui/skeleton";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
 }
+
 export function OutstandingTable<TData, TValue>({
   columns,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const { data: outstandingData, isLoading } = useOutstanding();
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    { id: "supplierName", value: "" },
+    {
+      id: "status",
+      value: [
+        "Plan to delivery",
+        "Ready to pickup",
+        "Waiting for feedback",
+        "Already in feedback",
+      ],
+    },
+  ]);
+  const { data: outstandingData, isLoading } = useOutstanding(columnFilters);
   const table = useReactTable({
     data: outstandingData || [],
     columns,
@@ -112,14 +122,38 @@ export function OutstandingTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const columnId = cell.column.id;
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        style={
+                          [
+                            "supplierName",
+                            "file_name",
+                            "status",
+                            "create_at",
+                            "due_date",
+                            "plan_date",
+                            "ready_date",
+                          ].includes(columnId)
+                            ? {
+                                width: "250px",
+                                minWidth: "200px",
+                                maxWidth: "400px",
+                                textAlign: "left",
+                              }
+                            : {}
+                        }
+                        className=""
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

@@ -33,6 +33,12 @@ export const columns: ColumnDef<Po>[] = [
     header: "Create By",
   },
   {
+    id: "supplierName",
+    header: "Supplier",
+    accessorFn: (row) => row.supplier?.name ?? "",
+    cell: ({ getValue }) => getValue() || "-",
+  },
+  {
     accessorKey: "create_at",
     header: "Order Date",
     cell: ({ row }) => {
@@ -139,32 +145,14 @@ export const columns: ColumnDef<Po>[] = [
     filterFn: "arrIncludesSome",
   },
   {
-    accessorKey: "remarks_on_supply",
-    header: "Remaks",
-    cell: ({ row }) => {
-      const remarks = row.original.remarks_on_supply;
-      const remarksData = remarks ? <span>{remarks}</span> : <span>-</span>;
-      return remarksData;
-    },
-  },
-  {
     header: "Action",
     id: "actions",
     cell: ({ row }) => {
       const statusPo = row.original.status;
-      const poId = row.original;
       if (statusPo === "Ready to pickup") {
         return <PoFinishForm data={row.original} />;
       } else if (statusPo === "Finish") {
-        return (
-          <Link
-            href={`/outstanding/${poId.id}`}
-            className="text-xs px-3 py-2 rounded-3xl text-center bg-gradient-to-r from-neutral-600 to-neutral-800 text-white hover:from-neutral-700 hover:to-neutral-950 shadow-2xl"
-            prefetch={true}
-          >
-            Detail
-          </Link>
-        );
+        return null;
       } else {
         return <ActionCell data={row.original} />;
       }

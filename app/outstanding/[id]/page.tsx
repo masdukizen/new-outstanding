@@ -1,5 +1,5 @@
 "use client";
-import OutstandingPoDetails from "@/components/outstanding/OutstandingDetails";
+import ItemDetails from "@/components/ordered_items/item_details";
 import { Box } from "lucide-react";
 import { useParams } from "next/navigation";
 import { Suspense } from "react";
@@ -13,7 +13,7 @@ export default function OutstandingDetails() {
         <Box size={22} /> <h1 className="text-2xl">Item Details</h1>
       </div>
       <Suspense>
-        <OutstandingPoDetails poId={id} />
+        <ItemDetails poId={id} />
       </Suspense>
     </div>
   );
