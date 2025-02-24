@@ -86,14 +86,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  // cookies: {
-  //   sessionToken: {
-  //     name: "__Secure-authjs.session-token", // Nama cookie
-  //     options: {
-  //       httpOnly: true, // Cookie hanya bisa diakses oleh server
-  //       secure: process.env.NODE_ENV === "production", // Hanya di produksi menggunakan HTTPS
-  //       sameSite: "none", // Harus None untuk cookie lintas domain
-  //     },
-  //   },
-  // },
+  cookies: {
+    sessionToken: {
+      name: "__Secure-authjs.session-token", // Nama cookie
+      options: {
+        httpOnly: true, // Cookie hanya bisa diakses oleh server
+        secure: process.env.NODE_ENV === "production", // Hanya di produksi menggunakan HTTPS
+        sameSite: "lax", // Harus None untuk cookie lintas domain
+      },
+    },
+  },
 });
