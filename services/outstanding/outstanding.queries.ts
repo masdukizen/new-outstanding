@@ -32,7 +32,7 @@ export function useOutstanding(columnFilters: ColumnFiltersState) {
   const { data, error, mutate, isLoading } = useSWR(url, fetcher, {
     keepPreviousData: true,
     revalidateOnFocus: false,
-    refreshInterval: 300000,
+    refreshInterval: 5000,
     dedupingInterval: 60000,
     fallbackData: { results: [], totalPages: 1, totalItems: 0 },
   });

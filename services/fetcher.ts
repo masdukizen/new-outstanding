@@ -3,7 +3,6 @@ import axiosInstance from "./instance-fetch";
 
 const fetcher = async (url: string) => {
   const token = await fetchToken();
-
   return axiosInstance
     .get(url, {
       headers: {

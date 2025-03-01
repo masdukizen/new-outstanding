@@ -6,15 +6,22 @@ export default async function Dashboard() {
   return (
     <div className="container mx-auto py-2 max-w-[1024px]">
       <h1 className="text-2xl px-10 font-bold mb-4">Dashboard</h1>
-      <div className="mb-4 px-10">
-        <h1 className="text-base font-semibold">
-          Welcome back :{" "}
-          <span className="font-light">{session?.user.name}</span>{" "}
-        </h1>
-      </div>
+
       {/* Chart */}
       <div className="px-10">
-        {session?.user.role !== "Supplier" ? <PoChart /> : null}
+        {session?.user.role !== "Supplier" ? (
+          <PoChart
+            userName={session?.user.name ?? ""}
+            role={session?.user.role as string}
+          />
+        ) : (
+          <div className="mb-4">
+            <h1 className="text-base font-semibold">
+              Welcome back :{" "}
+              <span className="font-light">{session?.user.name}</span>{" "}
+            </h1>
+          </div>
+        )}
       </div>
     </div>
   );

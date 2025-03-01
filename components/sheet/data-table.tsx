@@ -46,7 +46,6 @@ export default function DataTablePO() {
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-
   const table = useReactTable({
     data: data || [],
     columns,

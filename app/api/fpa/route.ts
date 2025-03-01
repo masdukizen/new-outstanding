@@ -6,7 +6,9 @@ export async function GET(request: NextRequest) {
   const isAuthorized = await verifyAuthToken(request);
   if (isAuthorized instanceof NextResponse) return isAuthorized;
   try {
-    const items = await ItemService.fetchItems();
+    const url = new URL(request.url);
+    const supplierName = url.searchParams.get("supplierName") || undefined;
+    const items = await ItemService.fetchItems(supplierName);
     return NextResponse.json(items, { status: 200 });
   } catch (error) {
     console.error("Error fetching items:", error);

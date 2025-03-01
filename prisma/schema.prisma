@@ -48,7 +48,7 @@ model Item {
   contract_no_manual String
   effective_date DateTime
   expiry_date DateTime
-  stock_code Int
+  stock_code Int @unique
   stock_description String
   part_no String
   currency String @default("IDR")

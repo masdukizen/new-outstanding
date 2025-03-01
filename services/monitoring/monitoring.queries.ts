@@ -10,7 +10,14 @@ export function useMonitoring() {
 export function useStatusMonitoring() {
   const { data: status, error: statusError } = useSWR(
     "/api/po/status-stats",
-    fetcher
+    fetcher,
+    {
+      keepPreviousData: true,
+      revalidateOnFocus: false,
+      refreshInterval: 5000,
+      // dedupingInterval: 60000,
+      fallbackData: { results: [], totalPages: 1, totalItems: 0 },
+    }
   );
   return { status, statusError };
 }

@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         fetcher,
         keepPreviousData: true,
         revalidateOnFocus: false,
-        dedupingInterval: 60000,
+        refreshInterval: 15000,
       }}
     >
       {children}

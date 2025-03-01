@@ -29,3 +29,58 @@ export const addItem = async (url: string, { arg }: { arg: Partial<Item> }) => {
     throw new Error(errorMessage);
   }
 };
+
+export const updateFpa = async (
+  url: string,
+  { arg }: { arg: Partial<Item> }
+) => {
+  const token = await fetchToken();
+
+  try {
+    const response = await axiosInstance.patch(url, arg, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{
+      error?: string;
+      message?: string;
+    }>;
+
+    const errorMessage =
+      axiosError.response?.data?.error ||
+      axiosError.response?.data?.message ||
+      "Something went wrong";
+
+    throw new Error(errorMessage);
+  }
+};
+
+export const deleteItem = async (url: string) => {
+  const token = await fetchToken();
+  try {
+    const response = await axiosInstance.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{
+      error?: string;
+      message?: string;
+    }>;
+    const errorMessage =
+      axiosError.response?.data?.error ||
+      axiosError.response?.data?.message ||
+      "Something went wrong";
+
+    throw new Error(errorMessage);
+  }
+};

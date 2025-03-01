@@ -87,7 +87,7 @@ export default function AddItemForm() {
   }, []);
   if (isLoading) {
     return (
-      <section className="max-w-[80%] mx-auto p-4">
+      <section className="max-w-[80%] mx-auto p-4 space-y-3">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />

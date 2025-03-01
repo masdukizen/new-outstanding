@@ -39,13 +39,14 @@ import { useFpa } from "@/services/fpa/fpa.queries";
 import Link from "next/link";
 import { User } from "@/types/user";
 
-export function FpaTable() {
+export function FpaTableSupplier({ name }: { name: string }) {
   const [session, setSession] = React.useState<User | null>(null);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
-    { id: "supplierName", value: "" },
+    { id: "supplierName", value: name },
   ]);
   const { data: fpaData, isLoading } = useFpa(columnFilters);
+  console.log(fpaData);
   const table = useReactTable({
     data: fpaData || [],
     columns: fpaColumns,

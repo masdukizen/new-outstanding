@@ -17,8 +17,8 @@ export function useUsers(
     {
       keepPreviousData: true,
       revalidateOnFocus: false,
-      refreshInterval: 300000,
-      dedupingInterval: 60000,
+      refreshInterval: 5000,
+      // dedupingInterval: 60000,
       fallbackData: { results: [], totalPages: 1, totalItems: 0 },
     }
   );

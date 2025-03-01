@@ -26,6 +26,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SkeletonCard from "./SkeletonCard";
+import { UserCheck2 } from "lucide-react";
 interface CustomTickProps {
   x: number;
   y: number;
@@ -57,13 +58,18 @@ const renderCustomizedTick = (props: CustomTickProps) => {
   );
 };
 
-export default function PoChart() {
+export default function PoChart({
+  userName,
+  role,
+}: {
+  userName: string;
+  role: string;
+}) {
   const { monthlyStats, isLoading } = useMonthlyPOCount();
   const { data: monitoring } = useMonitoring();
   const [chartData, setChartData] = useState<{ name: string; sales: number }[]>(
     []
   );
-
   useEffect(() => {
     if (monitoring?.countsByCreator) {
       const transformedData = monitoring.countsByCreator.map(
@@ -132,28 +138,41 @@ export default function PoChart() {
     <section className="max-w-[1024px]">
       {/* Card PO */}
       <div className="w-full mx-auto grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4 mb-8">
-        <Card className="text-center h-auto flex flex-col justify-between max-h-[300px]">
-          <CardHeader>
-            <CardTitle className="text-4xl">Total PO</CardTitle>
-            <CardDescription className="text-sm">
-              Data PO terbaru
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-7xl">
-              <CountUp end={monitoring?.totalPO || 0} duration={2.5} />
+        <div className="flex flex-col gap-6">
+          <div className="text-center h-auto border p-4 rounded-xl flex items-center gap-4 bg-slate-600 text-white">
+            <div className="h-16 w-16 border border-slate-200 bg-slate-50 rounded-full flex justify-center items-center">
+              <UserCheck2 size={35} className="text-slate-800" />
             </div>
-          </CardContent>
-          <CardFooter className="flex justify-center text-4xl font-extrabold">
-            PO
-          </CardFooter>
-        </Card>
+            <div className="text-left">
+              <h1 className="text-2xl font-semibold">
+                {userName.split(" ")[0]}
+              </h1>
+              <small className="text-muted">{role}</small>
+            </div>
+          </div>
+          <Card className="text-center h-auto flex flex-col justify-between max-h-[300px]">
+            <CardHeader>
+              <CardTitle className="text-4xl">Total PO</CardTitle>
+              <CardDescription className="text-sm">
+                Data PO terbaru
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-7xl">
+                <CountUp end={monitoring?.totalPO || 0} duration={2.5} />
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-center text-4xl font-extrabold my-2">
+              PO
+            </CardFooter>
+          </Card>
+        </div>
 
         <Card className="p-2 order-1 lg:order-2">
           <CardHeader>
             <CardTitle>Admin PO Chart</CardTitle>
             <CardDescription>
-              Ikhtisar distribusi admin terhadap PO
+              Distribusi administrator terhadap PO
             </CardDescription>
           </CardHeader>
           <CardContent>
