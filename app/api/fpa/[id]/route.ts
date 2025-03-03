@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as ItemService from "@/services/item.service";
+import { verifyAuthToken } from "@/services/route-auth";
 export async function GET(request: NextRequest) {
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
   try {
     const id = request.nextUrl.pathname.split("/").pop() || "";
     if (!id) {
@@ -20,6 +23,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
   try {
     const id = request.nextUrl.pathname.split("/").pop() || "";
 
@@ -43,6 +48,8 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const isAuthorized = await verifyAuthToken(request);
+  if (isAuthorized instanceof NextResponse) return isAuthorized;
   try {
     const id = request.nextUrl.pathname.split("/").pop() || "";
     if (!id) {

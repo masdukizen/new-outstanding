@@ -20,7 +20,6 @@ export default function UserShow({ user, isLoading }: UserProps) {
               </div>
             ))
           : [
-              { label: "ID", value: user?.id },
               { label: "Name", value: user?.name },
               { label: "Email", value: user?.email },
               { label: "Supplier Code", value: user?.supplier_code || "-" },

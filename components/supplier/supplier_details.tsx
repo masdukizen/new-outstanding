@@ -19,7 +19,6 @@ export default function SupplierDetails({ id }: { id: string }) {
               </div>
             ))
           : [
-              { label: "ID", value: user?.id },
               { label: "Name", value: user?.name },
               { label: "Email", value: user?.email },
               { label: "Supplier Code", value: user?.supplier_code || "-" },
