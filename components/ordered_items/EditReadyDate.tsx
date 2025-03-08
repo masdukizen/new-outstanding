@@ -105,11 +105,11 @@ export function EditReadyDate({ isOpen, onClose, data }: EditDialogProps) {
               name="ready_date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Due Date</FormLabel>
+                  <FormLabel>Ready Date</FormLabel>
                   <FormControl>
                     <Input
                       type="date"
-                      placeholder="Select due date"
+                      placeholder="Select ready date"
                       value={
                         field.value
                           ? field.value.toISOString().split("T")[0]

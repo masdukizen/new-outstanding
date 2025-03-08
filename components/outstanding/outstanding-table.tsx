@@ -38,24 +38,42 @@ import {
 import { Skeleton } from "../ui/skeleton";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  createdBy: string;
+  role: string;
 }
 
 export function OutstandingTable<TData, TValue>({
   columns,
+  createdBy,
+  role,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
-    { id: "supplierName", value: "" },
-    {
-      id: "status",
-      value: [
-        "Plan to delivery",
-        "Ready to pickup",
-        "Waiting for feedback",
-        "Already in feedback",
-      ],
-    },
-  ]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    role === "Admin"
+      ? [
+          {
+            id: "status",
+            value: [
+              "Plan to delivery",
+              "Ready to pickup",
+              "Waiting for feedback",
+              "Already in feedback",
+            ],
+          },
+        ]
+      : [
+          { id: "createdByName", value: createdBy },
+          {
+            id: "status",
+            value: [
+              "Plan to delivery",
+              "Ready to pickup",
+              "Waiting for feedback",
+              "Already in feedback",
+            ],
+          },
+        ]
+  );
   const { data: outstandingData, isLoading } = useOutstanding(columnFilters);
   const table = useReactTable({
     data: outstandingData || [],

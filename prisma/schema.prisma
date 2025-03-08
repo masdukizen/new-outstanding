@@ -20,7 +20,7 @@ model User {
   role          String    @default("User")
   poUser        Po[]      @relation("UserPO")
   poSupplier    Po[]      @relation("SupplierPO")
-  Item Item[] @relation("SupplierItem")
+  Item          Item[]    @relation("SupplierItem")
   @@map("users")
 }
  

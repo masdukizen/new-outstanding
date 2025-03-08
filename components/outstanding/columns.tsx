@@ -29,8 +29,10 @@ export const columns: ColumnDef<Po>[] = [
     header: "PO Item",
   },
   {
-    accessorKey: "createdBy.name",
+    id: "createdByName",
     header: "Create By",
+    accessorFn: (row) => row.createdBy?.name ?? "",
+    cell: ({ getValue }) => getValue() || "-",
   },
   {
     id: "supplierName",

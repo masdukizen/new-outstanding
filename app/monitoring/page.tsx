@@ -10,7 +10,7 @@ export default function Monitoring() {
   if (statusError) return <p>Error: {statusError.message}</p>;
   return (
     <div className="container mx-auto py-2">
-      <h1 className="text-2xl font-bold mb-4">Outstanding PO</h1>
+      <h1 className="text-2xl font-bold mb-4">Monitoring</h1>
       <div className="">
         <StatusCards statuses={status} />
       </div>

@@ -1,10 +1,15 @@
+import { auth } from "@/auth";
 import DataTablePO from "@/components/sheet/data-table";
 import { Suspense } from "react";
 export default async function Po() {
+  const session = await auth();
   return (
     <div>
       <Suspense>
-        <DataTablePO />
+        <DataTablePO
+          user={session?.user.name ?? ""}
+          role={session?.user.role ?? ""}
+        />
       </Suspense>
     </div>
   );

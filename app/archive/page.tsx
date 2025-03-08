@@ -17,7 +17,11 @@ export default async function Archive() {
         </Suspense>
       ) : (
         <Suspense>
-          <ArchiveTable columns={archiveColumns} />
+          <ArchiveTable
+            columns={archiveColumns}
+            createdBy={session?.user.name ?? ""}
+            role={session?.user.role ?? ""}
+          />
         </Suspense>
       )}
     </div>

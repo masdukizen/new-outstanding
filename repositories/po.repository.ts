@@ -5,14 +5,17 @@ import { Prisma } from "@prisma/client";
 export const getPO = async ({
   status,
   supplierName,
+  createdBy,
 }: {
   status?: string[];
   supplierName?: string;
+  createdBy?: string;
 }): Promise<Po[]> => {
   return await prisma.po.findMany({
     where: {
       ...(status && status.length > 0 ? { status: { in: status } } : {}),
       ...(supplierName ? { supplier: { name: supplierName } } : {}),
+      ...(createdBy ? { createdBy: { name: createdBy } } : {}),
     },
     include: {
       createdBy: true,

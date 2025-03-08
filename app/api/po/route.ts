@@ -13,7 +13,12 @@ export async function GET(request: Request) {
     const status = url.searchParams.getAll("status");
     const statusFilter = status.length > 0 ? status : undefined;
     const supplierName = url.searchParams.get("supplierName") || undefined;
-    const po = await PoService.fetchPo({ status: statusFilter, supplierName });
+    const createdBy = url.searchParams.get("createdByName") || undefined;
+    const po = await PoService.fetchPo({
+      status: statusFilter,
+      supplierName,
+      createdBy,
+    });
     return NextResponse.json(po, { status: 200 });
   } catch (error) {
     return NextResponse.json(

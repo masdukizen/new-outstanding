@@ -5,11 +5,13 @@ import * as PoRepository from "@/repositories/po.repository";
 export const fetchPo = async ({
   status,
   supplierName,
+  createdBy,
 }: {
   status?: string[];
   supplierName?: string;
+  createdBy?: string;
 }): Promise<Po[]> => {
-  return await PoRepository.getPO({ status, supplierName });
+  return await PoRepository.getPO({ status, supplierName, createdBy });
 };
 
 export const addPo = async (

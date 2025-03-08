@@ -13,6 +13,9 @@ export function useOutstanding(columnFilters: ColumnFiltersState) {
   const supplierNameFilter = columnFilters.find(
     (filter) => filter.id === "supplierName"
   )?.value as string | undefined;
+  const createdBy = columnFilters.find(
+    (filter) => filter.id === "createdByName"
+  )?.value as string | undefined;
   let url = `/api/po`;
   const params = new URLSearchParams();
   if (statusFilter) {
@@ -24,6 +27,9 @@ export function useOutstanding(columnFilters: ColumnFiltersState) {
   }
   if (supplierNameFilter) {
     params.append("supplierName", supplierNameFilter);
+  }
+  if (createdBy) {
+    params.append("createdByName", createdBy);
   }
 
   if (params.toString()) {

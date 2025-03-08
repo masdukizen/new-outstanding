@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ArchiveDelete from "./archive_delete";
 
 export const archiveColumns: ColumnDef<Po>[] = [
   {
@@ -32,8 +33,10 @@ export const archiveColumns: ColumnDef<Po>[] = [
     header: "PO Item",
   },
   {
-    accessorKey: "createdBy.name",
+    id: "createdByName",
     header: "Create By",
+    accessorFn: (row) => row.createdBy?.name ?? "",
+    cell: ({ getValue }) => getValue() || "-",
   },
   {
     id: "supplierName",
@@ -115,7 +118,7 @@ export const archiveColumns: ColumnDef<Po>[] = [
     cell: ({ row }) => {
       const po = row.original;
       return (
-        <div className="text-center">
+        <div className="text-center flex items-center justify-center gap-2">
           <Link
             href={`/archive/${po.id}`}
             onClick={() => {
@@ -136,6 +139,7 @@ export const archiveColumns: ColumnDef<Po>[] = [
               </Tooltip>
             </TooltipProvider>
           </Link>
+          <ArchiveDelete po={po} />
         </div>
       );
     },

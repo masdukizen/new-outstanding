@@ -38,15 +38,23 @@ import {
 import { Skeleton } from "../ui/skeleton";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  createdBy: string;
+  role: string;
 }
 export function ArchiveTable<TData, TValue>({
   columns,
+  createdBy,
+  role,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
-    { id: "supplierName", value: "" },
-    { id: "status", value: ["Finish"] },
-  ]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    role === "Admin"
+      ? [{ id: "status", value: ["Finish"] }]
+      : [
+          { id: "createdByName", value: createdBy },
+          { id: "status", value: ["Finish"] },
+        ]
+  );
   const { data: outstandingData, isLoading } = useOutstanding(columnFilters);
   const table = useReactTable({
     data: outstandingData || [],
@@ -63,7 +71,7 @@ export function ArchiveTable<TData, TValue>({
   });
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Archive PO</h1>
+      <h1 className="text-2xl font-bold mb-4">Archive</h1>
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter po number...."

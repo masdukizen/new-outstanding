@@ -37,15 +37,29 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-export default function DataTablePO() {
+export default function DataTablePO({
+  user,
+  role,
+}: {
+  user: string;
+  role: string;
+}) {
   const { data, error, isLoading, totalItems } = useSheets();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    role === "User" ? [{ id: "Purchasing_Officer", value: user }] : []
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+  React.useEffect(() => {
+    if (role === "User") {
+      setColumnFilters([{ id: "Purchasing_Officer", value: user }]);
+    } else {
+      setColumnFilters([]);
+    }
+  }, [user, role]);
+
   const table = useReactTable({
     data: data || [],
     columns,
@@ -62,20 +76,58 @@ export default function DataTablePO() {
       columnVisibility,
     },
   });
-
+  const filteredTotalItems = table.getFilteredRowModel().rows.length;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
-      <h1 className="text-2xl mb-8 font-semibold">PO Data</h1>
-      <div className="flex items-start justify-center flex-col py-4">
-        <p className="max-w-sm mr-2 font-bold">Total PO : {totalItems}</p>
-        <div className="flex items-center min-w-[20rem]">
+      <h1 className="text-2xl mb-8 font-semibold">Purchase Order</h1>
+      <div className="flex items-center py-4 gap-2">
+        <div className="flex flex-col min-w-[20rem]">
+          <p className="max-w-sm mr-2 font-bold">
+            Total PO : {role === "User" ? filteredTotalItems : totalItems}
+          </p>
           <Input
             placeholder="Filter PO Number..."
             value={(table.getColumn("PO_NO")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("PO_NO")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        {role === "Admin" ? (
+          <div className="flex flex-col min-w-[20rem]">
+            <p className="max-w-sm mr-2 font-bold">Purchasing Officer</p>
+            <Input
+              placeholder="Filter Purchasing Officer..."
+              value={
+                (table
+                  .getColumn("Purchasing_Officer")
+                  ?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn("Purchasing_Officer")
+                  ?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
+        ) : null}
+
+        <div className="flex flex-col min-w-[20rem]">
+          <p className="max-w-sm mr-2 font-bold">Supplier Name</p>
+          <Input
+            placeholder="Filter Supplier Name..."
+            value={
+              (table.getColumn("Supplier_Name")?.getFilterValue() as string) ??
+              ""
+            }
+            onChange={(event) =>
+              table
+                .getColumn("Supplier_Name")
+                ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />

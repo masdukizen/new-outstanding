@@ -105,11 +105,11 @@ export function EditPlanDate({ isOpen, onClose, data }: EditDialogProps) {
               name="plan_date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Due Date</FormLabel>
+                  <FormLabel>Plan Date</FormLabel>
                   <FormControl>
                     <Input
                       type="date"
-                      placeholder="Select due date"
+                      placeholder="Select Plan date"
                       value={
                         field.value
                           ? field.value.toISOString().split("T")[0]

@@ -3,6 +3,7 @@ import useSWRMutation from "swr/mutation";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { fetchToken } from "@/lib/useToken";
+import { mutate } from "swr";
 
 const uploadPO = async (url: string, { arg }: { arg: FormData }) => {
   const token = await fetchToken();
@@ -36,6 +37,7 @@ export function useDeletePo() {
         title: "Success",
         description: "PO deleted successfully",
       });
+      mutate((key) => typeof key === "string" && key.startsWith("/api/po"));
     },
     onError(error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -59,6 +61,7 @@ export function useUploadPO() {
         title: "Success",
         description: "PO sent successfully",
       });
+      mutate((key) => typeof key === "string" && key.startsWith("/api/po"));
     },
   });
 }

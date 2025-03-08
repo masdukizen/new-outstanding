@@ -101,7 +101,7 @@ export function SupplierTable() {
   if (error) return <p>Error: {error.message}</p>;
   return (
     <div>
-      <h1 className="text-2xl mb-8 font-bold">Supplier List</h1>
+      <h1 className="text-2xl mb-8 font-bold">Supplier</h1>
       <div className="flex items-center py-4 justify-between">
         <div className="min-w-[20rem] max-w-96">
           <p className="max-w-sm pb-1">Total Supplier: {totalItems}</p>

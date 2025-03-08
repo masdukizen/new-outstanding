@@ -18,7 +18,11 @@ export default async function Outstanding() {
         </Suspense>
       ) : (
         <Suspense>
-          <OutstandingTable columns={columns} />
+          <OutstandingTable
+            columns={columns}
+            createdBy={session?.user.name ?? ""}
+            role={session?.user.role ?? ""}
+          />
         </Suspense>
       )}
     </div>
